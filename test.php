@@ -1,3 +1,15 @@
+<?php
+// Procesamiento del formulario
+$mensajeEnviado = false;
+$nombre = "";
+$mensaje = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $nombre = htmlspecialchars($_POST["nombre"]);
+    $mensaje = htmlspecialchars($_POST["mensaje"]);
+    $mensajeEnviado = true;
+}
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -57,6 +69,13 @@
     button:hover {
       background-color: #e68a00;
     }
+    .mensaje-exito {
+      background-color: #d4edda;
+      color: #155724;
+      padding: 10px;
+      border-radius: 5px;
+      margin-top: 15px;
+    }
   </style>
 </head>
 <body>
@@ -80,7 +99,7 @@
         <li>Amazon RDS - Bases de datos relacionales</li>
         <li>AWS Lambda - Funciones sin servidor</li>
       </ul>
-      <button onclick="mostrarAlerta()">Ver más servicios</button>
+      <button onclick="alert('Próximamente más servicios como CloudFront, DynamoDB y más.')">Ver más servicios</button>
     </section>
 
     <section id="beneficios">
@@ -92,7 +111,12 @@
 
     <section id="contacto">
       <h2>Contáctanos</h2>
-      <form onsubmit="return enviarFormulario()">
+      <?php if ($mensajeEnviado): ?>
+        <div class="mensaje-exito">
+          <p>Gracias por tu mensaje, <strong><?php echo $nombre; ?></strong>. Nos pondremos en contacto pronto.</p>
+        </div>
+      <?php endif; ?>
+      <form method="post" action="">
         <label for="nombre">Nombre:</label><br>
         <input type="text" id="nombre" name="nombre" required><br><br>
         <label for="mensaje">Mensaje:</label><br>
@@ -105,18 +129,5 @@
   <footer>
     <p>&copy; 2025 AWS Info. Todos los derechos reservados.</p>
   </footer>
-
-  <script>
-    function mostrarAlerta() {
-      alert("Próximamente más servicios como CloudFront, DynamoDB y más.");
-    }
-
-    function enviarFormulario() {
-      const nombre = document.getElementById("nombre").value;
-      const mensaje = document.getElementById("mensaje").value;
-      alert(`Gracias por tu mensaje, ${nombre}.\nNos pondremos en contacto pronto.`);
-      return false; // Evita que el formulario se envíe realmente
-    }
-  </script>
 </body>
 </html>
